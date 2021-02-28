@@ -1,7 +1,9 @@
 package ifpr.pgua.eic.simuladorsubway.gui.controls;
 
 import ifpr.pgua.eic.simuladorsubway.Main;
+import ifpr.pgua.eic.simuladorsubway.models.Cliente;
 import ifpr.pgua.eic.simuladorsubway.models.Ingrediente;
+import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.ClienteRepository;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.IngredienteRepository;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
@@ -15,11 +17,16 @@ public class Principal {
     @FXML
     ListView<Ingrediente> ltwIngredientes;
 
+    @FXML
+    ListView<Cliente> ltwClientes;
+
 
     private IngredienteRepository ingredienteRepository;
+    private ClienteRepository clienteRepository;
 
-    public Principal(IngredienteRepository ingredienteRepository){
+    public Principal(IngredienteRepository ingredienteRepository, ClienteRepository clienteRepository){
         this.ingredienteRepository = ingredienteRepository;
+        this.clienteRepository = clienteRepository;
     }
 
 
@@ -46,6 +53,40 @@ public class Principal {
         });
 
         ltwIngredientes.setItems(ingredienteRepository.lista());
+
+
+        ltwClientes.setCellFactory(clienteListView -> new ListCell<>(){
+            @Override
+            protected void updateItem(Cliente cliente, boolean b) {
+                super.updateItem(cliente,b);
+
+                if(cliente != null){
+                    setText(cliente.getNome());
+                }else{
+                    setText("");
+                }
+            }
+        });
+
+        ltwClientes.setItems(clienteRepository.lista());
+    }
+
+
+    @FXML
+    private void cadastrarCliente(){
+        Main.mudaCena(Main.ADICIONARCLIENTE,(aClass) -> new AdicionarCliente(clienteRepository));
+    }
+
+    @FXML
+    private void editarCliente(MouseEvent evt){
+
+        if(evt.getClickCount() == 2){
+            Cliente cliente = ltwClientes.getSelectionModel().getSelectedItem();
+
+            if(cliente != null){
+                Main.mudaCena(Main.ADICIONARCLIENTE,(aClass) -> new AdicionarCliente(clienteRepository,cliente));
+            }
+        }
 
     }
 

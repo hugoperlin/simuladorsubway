@@ -99,14 +99,14 @@ public class AdicionarIngrediente {
         }
 
 
-        Main.mudaCena(Main.PRINCIPAL,(aClass)-> new Principal(ingredienteRepository));
+        Main.voltaPrincipal();
 
 
     }
 
     @FXML
     private void cancelar(){
-        Main.mudaCena(Main.PRINCIPAL,(aClass)-> new Principal(ingredienteRepository));
+        Main.voltaPrincipal();
     }
 
 

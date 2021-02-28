@@ -9,10 +9,19 @@
 <VBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="ifpr.pgua.eic.simuladorsubway.gui.controls.Principal"
-            prefHeight="400.0" prefWidth="600.0">
+            prefHeight="400.0" prefWidth="600.0" spacing="10">
+
+
 
     <Button text="Cadastrar Ingrediente" onAction="#cadastarIngrediente"/>
 
     <ListView fx:id="ltwIngredientes" onMouseClicked="#editarIngrediente"/>
+
+    <Button text="Cadastrar Cliente" onAction="#cadastrarCliente"/>
+
+    <ListView fx:id="ltwClientes" onMouseClicked="#editarCliente"/>
+
+
+
 
 </VBox>

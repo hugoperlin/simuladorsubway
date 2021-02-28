@@ -1,7 +1,9 @@
 package ifpr.pgua.eic.simuladorsubway;
 
 import ifpr.pgua.eic.simuladorsubway.gui.controls.Principal;
+import ifpr.pgua.eic.simuladorsubway.repositories.ClienteRepositoryImpl;
 import ifpr.pgua.eic.simuladorsubway.repositories.IngredienteRepositoryImpl;
+import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.ClienteRepository;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.IngredienteRepository;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -32,13 +34,13 @@ public class Main extends Application {
 
     public static final String PRINCIPAL = "/fxml/principal.fxml";
     public static final String ADICIONARINGREDIENTE = "/fxml/adicionar_ingrediente.fxml";
-
+    public static final String ADICIONARCLIENTE = "/fxml/adicionar_cliente.fxml";
     /**
      * Atributo que representa a mercearia. Será utilizado
      * por todas as janelas, através da injeção de dependência.
      */
-    private IngredienteRepository ingredienteRepository;
-
+    private static IngredienteRepository ingredienteRepository;
+    private static ClienteRepository clienteRepository;
 
     /**
      * Atrituto que repreenta o gerenciador base que será inserido
@@ -66,7 +68,7 @@ public class Main extends Application {
 
 
         ingredienteRepository = new IngredienteRepositoryImpl();
-
+        clienteRepository = new ClienteRepositoryImpl();
     }
 
     /**
@@ -89,7 +91,7 @@ public class Main extends Application {
         stage.setTitle("Controle de Mercearia");
 
 
-        mudaCena(Main.PRINCIPAL,(aClass) -> new Principal(ingredienteRepository));
+        mudaCena(Main.PRINCIPAL,principalCallback());
 
         stage.show();
 
@@ -137,6 +139,14 @@ public class Main extends Application {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public static void voltaPrincipal(){
+        mudaCena(Main.PRINCIPAL, principalCallback());
+    }
+
+    private static Callback principalCallback(){
+        return (aClass) -> new Principal(ingredienteRepository,clienteRepository);
     }
 
 }
