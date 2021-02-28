@@ -1,12 +1,17 @@
 package ifpr.pgua.eic.simuladorsubway;
 
 import ifpr.pgua.eic.simuladorsubway.gui.controls.Principal;
+import ifpr.pgua.eic.simuladorsubway.models.Bebida;
+import ifpr.pgua.eic.simuladorsubway.models.Cliente;
+import ifpr.pgua.eic.simuladorsubway.models.Ingrediente;
 import ifpr.pgua.eic.simuladorsubway.repositories.BebidaRepositoryImpl;
 import ifpr.pgua.eic.simuladorsubway.repositories.ClienteRepositoryImpl;
 import ifpr.pgua.eic.simuladorsubway.repositories.IngredienteRepositoryImpl;
+import ifpr.pgua.eic.simuladorsubway.repositories.PedidoRepositoryImpl;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.BebidaRepository;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.ClienteRepository;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.IngredienteRepository;
+import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.PedidoRepository;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -36,6 +41,7 @@ public class Main extends Application {
     public static final String ADICIONARINGREDIENTE = "/fxml/adicionar_ingrediente.fxml";
     public static final String ADICIONARCLIENTE = "/fxml/adicionar_cliente.fxml";
     public static final String ADICIONARBEBIDA = "/fxml/adicionar_bebida.fxml";
+    public static final String ADICIONARPEDIDO = "/fxml/adicionar_pedido.fxml";
 
     /**
      * Atributo que representa a mercearia. Será utilizado
@@ -44,6 +50,8 @@ public class Main extends Application {
     private static IngredienteRepository ingredienteRepository;
     private static ClienteRepository clienteRepository;
     private static BebidaRepository bebidaRepository;
+    private static PedidoRepository pedidoRepository;
+
     /**
      * Atrituto que repreenta o gerenciador base que será inserido
      * no stage. Por ser um StackPane, podemos inserir outros gerenciadores
@@ -51,6 +59,29 @@ public class Main extends Application {
      */
 
     private static StackPane base;
+
+
+    private static void criaFakes(){
+
+        ingredienteRepository.adicionar(new Ingrediente("Tomate","",0.5));
+        ingredienteRepository.adicionar(new Ingrediente("Pão","",1.0));
+        ingredienteRepository.adicionar(new Ingrediente("Queijo","",0.8));
+        ingredienteRepository.adicionar(new Ingrediente("Presunto","",0.75));
+        ingredienteRepository.adicionar(new Ingrediente("Bacon","",1.1));
+
+        bebidaRepository.adicionar(new Bebida("Suco de Limão",1.0));
+        bebidaRepository.adicionar(new Bebida("Suco de Laranja",1.5));
+        bebidaRepository.adicionar(new Bebida("Suco de Abacaxi",2.0));
+        bebidaRepository.adicionar(new Bebida("Suco de Graviola",3.0));
+        bebidaRepository.adicionar(new Bebida("Suco de Acerola",3.5));
+
+        clienteRepository.adicionar(new Cliente("Cliente 1","0","cliente1@teste.com"));
+        clienteRepository.adicionar(new Cliente("Cliente 2","0","cliente2@teste.com"));
+        clienteRepository.adicionar(new Cliente("Cliente 3","0","cliente3@teste.com"));
+        clienteRepository.adicionar(new Cliente("Cliente 4","0","cliente4@teste.com"));
+        clienteRepository.adicionar(new Cliente("Cliente 5","0","cliente5@teste.com"));
+
+    }
 
 
     public static void main(String[] args) {
@@ -72,6 +103,10 @@ public class Main extends Application {
         ingredienteRepository = new IngredienteRepositoryImpl();
         clienteRepository = new ClienteRepositoryImpl();
         bebidaRepository = new BebidaRepositoryImpl();
+        pedidoRepository = new PedidoRepositoryImpl();
+
+        //Criando objetos temporários para teste
+        criaFakes();
     }
 
     /**
@@ -149,7 +184,7 @@ public class Main extends Application {
     }
 
     private static Callback principalCallback(){
-        return (aClass) -> new Principal(ingredienteRepository,clienteRepository,bebidaRepository);
+        return (aClass) -> new Principal(ingredienteRepository,clienteRepository,bebidaRepository,pedidoRepository);
     }
 
 }

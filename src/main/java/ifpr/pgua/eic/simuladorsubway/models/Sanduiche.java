@@ -27,9 +27,11 @@ public class Sanduiche {
 
 
     public boolean adiciona(Ingrediente ingrediente){
-        this.ingredientes.add(ingrediente);
-
-        return true;
+        if(!this.ingredientes.contains(ingrediente)){
+            this.ingredientes.add(ingrediente);
+            return true;
+        }
+        return false;
     }
 
     public boolean remove(Ingrediente ingrediente){

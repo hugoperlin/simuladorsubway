@@ -4,9 +4,11 @@ import ifpr.pgua.eic.simuladorsubway.Main;
 import ifpr.pgua.eic.simuladorsubway.models.Bebida;
 import ifpr.pgua.eic.simuladorsubway.models.Cliente;
 import ifpr.pgua.eic.simuladorsubway.models.Ingrediente;
+import ifpr.pgua.eic.simuladorsubway.models.Pedido;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.BebidaRepository;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.ClienteRepository;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.IngredienteRepository;
+import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.PedidoRepository;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -25,15 +27,23 @@ public class Principal {
     @FXML
     ListView<Bebida> ltwBebidas;
 
+    @FXML
+    ListView<Pedido> ltwPedidos;
+
 
     private IngredienteRepository ingredienteRepository;
     private ClienteRepository clienteRepository;
     private BebidaRepository bebidaRepository;
+    private PedidoRepository pedidoRepository;
 
-    public Principal(IngredienteRepository ingredienteRepository, ClienteRepository clienteRepository, BebidaRepository bebidaRepository){
+    public Principal(IngredienteRepository ingredienteRepository,
+                     ClienteRepository clienteRepository,
+                     BebidaRepository bebidaRepository,
+                     PedidoRepository pedidoRepository){
         this.ingredienteRepository = ingredienteRepository;
         this.clienteRepository = clienteRepository;
         this.bebidaRepository = bebidaRepository;
+        this.pedidoRepository = pedidoRepository;
     }
 
 
@@ -92,6 +102,29 @@ public class Principal {
 
         ltwBebidas.setItems(bebidaRepository.lista());
 
+
+        ltwPedidos.setCellFactory(pedidoListView -> new ListCell<>(){
+            @Override
+            protected void updateItem(Pedido pedido, boolean b) {
+                super.updateItem(pedido, b);
+
+                if(pedido != null){
+                    setText(pedido.getCliente().getNome());
+                }else{
+                    setText("");
+                }
+
+            }
+        });
+
+        ltwPedidos.setItems(pedidoRepository.lista());
+
+    }
+
+
+    @FXML
+    private void cadastrarPedido(){
+        Main.mudaCena(Main.ADICIONARPEDIDO, (aClass) -> new AdicionarPedido(ingredienteRepository,bebidaRepository,clienteRepository,pedidoRepository));
     }
 
 

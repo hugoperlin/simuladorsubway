@@ -7,18 +7,20 @@ public class Pedido {
     private int id;
     private Sanduiche sanduiche;
     private Bebida bebida;
+    private Cliente cliente;
     private double valorTotal;
     private LocalDate data;
 
-    public Pedido(int id, Sanduiche sanduiche, Bebida bebida, LocalDate data){
+    public Pedido(int id, Sanduiche sanduiche, Bebida bebida, Cliente cliente, LocalDate data){
         this.id = id;
         this.sanduiche = sanduiche;
         this.bebida = bebida;
+        this.cliente = cliente;
         this.data = data;
     }
 
-    public Pedido(Sanduiche sanduiche, Bebida bebida){
-        this(-1,sanduiche,bebida, LocalDate.now());
+    public Pedido(Sanduiche sanduiche, Bebida bebida, Cliente cliente){
+        this(-1,sanduiche,bebida,cliente, LocalDate.now());
     }
 
     public double getValorTotal() {
@@ -31,6 +33,10 @@ public class Pedido {
 
     public Bebida getBebida() {
         return bebida;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
     }
 
     @Override
