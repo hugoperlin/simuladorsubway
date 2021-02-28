@@ -13,6 +13,6 @@
 
     <Button text="Cadastrar Ingrediente" onAction="#cadastarIngrediente"/>
 
-
+    <ListView fx:id="ltwIngredientes" />
 
 </VBox>
