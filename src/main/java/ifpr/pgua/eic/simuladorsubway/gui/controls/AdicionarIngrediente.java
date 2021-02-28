@@ -5,6 +5,7 @@ import ifpr.pgua.eic.simuladorsubway.models.Ingrediente;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.IngredienteRepository;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 public class AdicionarIngrediente {
@@ -19,13 +20,38 @@ public class AdicionarIngrediente {
     @FXML
     private TextField tfValor;
 
+    @FXML
+    private Button btAdicionar;
 
     private IngredienteRepository ingredienteRepository;
+    private Ingrediente ingredienteOriginal;
+
+    public AdicionarIngrediente(IngredienteRepository ingredienteRepository, Ingrediente ingrediente){
+        this.ingredienteRepository = ingredienteRepository;
+        this.ingredienteOriginal = ingrediente;
+    }
 
 
     public AdicionarIngrediente(IngredienteRepository ingredienteRepository){
-        this.ingredienteRepository = ingredienteRepository;
+        this(ingredienteRepository,null);
     }
+
+
+    @FXML
+    private void initialize(){
+
+        if(ingredienteOriginal != null){
+            tfNome.setText(ingredienteOriginal.getNome());
+            tfDescricao.setText(ingredienteOriginal.getDescricao());
+            tfValor.setText(String.valueOf(ingredienteOriginal.getValor()));
+
+            btAdicionar.setText("Alterar");
+
+        }
+
+    }
+
+
 
     @FXML
     private void adicionar(){
@@ -60,10 +86,18 @@ public class AdicionarIngrediente {
             return;
         }
 
+
+
+
         Ingrediente ingrediente = new Ingrediente(nome,descricao,valor);
 
 
-        ingredienteRepository.adicionar(ingrediente);
+        if(ingredienteOriginal != null){
+            ingredienteRepository.editar(ingredienteOriginal.getId(),ingrediente);
+        }else{
+            ingredienteRepository.adicionar(ingrediente);
+        }
+
 
         Main.mudaCena(Main.PRINCIPAL,(aClass)-> new Principal(ingredienteRepository));
 

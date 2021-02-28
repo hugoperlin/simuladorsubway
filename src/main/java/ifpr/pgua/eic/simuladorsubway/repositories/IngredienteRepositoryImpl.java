@@ -18,8 +18,23 @@ public class IngredienteRepositoryImpl implements IngredienteRepository {
     }
 
     public boolean adicionar(Ingrediente ingrediente){
-        ingredientes.add(ingrediente);
+        ingredientes.add(new Ingrediente(ingredientes.size(),ingrediente.getNome(),ingrediente.getDescricao(), ingrediente.getValor()));
         return true;
+    }
+
+    public boolean editar(int id, Ingrediente ingrediente){
+
+        for(Ingrediente i:ingredientes){
+            if(i.getId() == id){
+                i.setNome(ingrediente.getNome());
+                i.setDescricao(ingrediente.getDescricao());
+                i.setValor(ingrediente.getValor());
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public ObservableList<Ingrediente> lista(){

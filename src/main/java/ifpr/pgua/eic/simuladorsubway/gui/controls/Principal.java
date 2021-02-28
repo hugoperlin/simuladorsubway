@@ -6,6 +6,7 @@ import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.IngredienteReposito
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
 
@@ -52,6 +53,21 @@ public class Principal {
     @FXML
     private void cadastarIngrediente(){
         Main.mudaCena(Main.ADICIONARINGREDIENTE,(aClass)->new AdicionarIngrediente(ingredienteRepository));
+    }
+
+    @FXML
+    private void editarIngrediente(MouseEvent evt){
+
+        if(evt.getClickCount() == 2){
+
+            Ingrediente ingrediente = ltwIngredientes.getSelectionModel().getSelectedItem();
+            if(ingrediente != null){
+                Main.mudaCena(Main.ADICIONARINGREDIENTE,(aClass) -> new AdicionarIngrediente(ingredienteRepository,ingrediente));
+            }
+
+
+        }
+
     }
 
 }

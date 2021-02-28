@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 
 public interface IngredienteRepository {
 
-    public boolean adicionar(Ingrediente ingrediente);
-    public ObservableList<Ingrediente> lista();
+    boolean adicionar(Ingrediente ingrediente);
+    boolean editar(int id, Ingrediente ingredienteAntigo);
+    ObservableList<Ingrediente> lista();
 }
