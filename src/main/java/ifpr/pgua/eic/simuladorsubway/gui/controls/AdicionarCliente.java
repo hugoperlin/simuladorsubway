@@ -2,9 +2,7 @@ package ifpr.pgua.eic.simuladorsubway.gui.controls;
 
 import ifpr.pgua.eic.simuladorsubway.Main;
 import ifpr.pgua.eic.simuladorsubway.models.Cliente;
-import ifpr.pgua.eic.simuladorsubway.models.Ingrediente;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.ClienteRepository;
-import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.IngredienteRepository;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;

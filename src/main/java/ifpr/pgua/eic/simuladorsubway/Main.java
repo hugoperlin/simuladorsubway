@@ -1,8 +1,10 @@
 package ifpr.pgua.eic.simuladorsubway;
 
 import ifpr.pgua.eic.simuladorsubway.gui.controls.Principal;
+import ifpr.pgua.eic.simuladorsubway.repositories.BebidaRepositoryImpl;
 import ifpr.pgua.eic.simuladorsubway.repositories.ClienteRepositoryImpl;
 import ifpr.pgua.eic.simuladorsubway.repositories.IngredienteRepositoryImpl;
+import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.BebidaRepository;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.ClienteRepository;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.IngredienteRepository;
 import javafx.application.Application;
@@ -13,8 +15,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-
-import java.io.*;
 
 
 /**
@@ -35,13 +35,15 @@ public class Main extends Application {
     public static final String PRINCIPAL = "/fxml/principal.fxml";
     public static final String ADICIONARINGREDIENTE = "/fxml/adicionar_ingrediente.fxml";
     public static final String ADICIONARCLIENTE = "/fxml/adicionar_cliente.fxml";
+    public static final String ADICIONARBEBIDA = "/fxml/adicionar_bebida.fxml";
+
     /**
      * Atributo que representa a mercearia. Será utilizado
      * por todas as janelas, através da injeção de dependência.
      */
     private static IngredienteRepository ingredienteRepository;
     private static ClienteRepository clienteRepository;
-
+    private static BebidaRepository bebidaRepository;
     /**
      * Atrituto que repreenta o gerenciador base que será inserido
      * no stage. Por ser um StackPane, podemos inserir outros gerenciadores
@@ -69,6 +71,7 @@ public class Main extends Application {
 
         ingredienteRepository = new IngredienteRepositoryImpl();
         clienteRepository = new ClienteRepositoryImpl();
+        bebidaRepository = new BebidaRepositoryImpl();
     }
 
     /**
@@ -88,7 +91,7 @@ public class Main extends Application {
 
 
         stage.setScene(new Scene(base, Region.USE_PREF_SIZE,Region.USE_PREF_SIZE));
-        stage.setTitle("Controle de Mercearia");
+        stage.setTitle("Simulador de Subway...");
 
 
         mudaCena(Main.PRINCIPAL,principalCallback());
@@ -146,7 +149,7 @@ public class Main extends Application {
     }
 
     private static Callback principalCallback(){
-        return (aClass) -> new Principal(ingredienteRepository,clienteRepository);
+        return (aClass) -> new Principal(ingredienteRepository,clienteRepository,bebidaRepository);
     }
 
 }

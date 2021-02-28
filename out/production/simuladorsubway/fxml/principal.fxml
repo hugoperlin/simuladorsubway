@@ -22,6 +22,10 @@
     <ListView fx:id="ltwClientes" onMouseClicked="#editarCliente"/>
 
 
+    <Button text="Cadastrar Bebida" onAction="#cadastrarBebida"/>
+
+    <ListView fx:id="ltwBebidas" onMouseClicked="#editarBebida"/>
+
 
 
 </VBox>

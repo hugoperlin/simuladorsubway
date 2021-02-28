@@ -1,8 +1,10 @@
 package ifpr.pgua.eic.simuladorsubway.gui.controls;
 
 import ifpr.pgua.eic.simuladorsubway.Main;
+import ifpr.pgua.eic.simuladorsubway.models.Bebida;
 import ifpr.pgua.eic.simuladorsubway.models.Cliente;
 import ifpr.pgua.eic.simuladorsubway.models.Ingrediente;
+import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.BebidaRepository;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.ClienteRepository;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.IngredienteRepository;
 import javafx.fxml.FXML;
@@ -20,13 +22,18 @@ public class Principal {
     @FXML
     ListView<Cliente> ltwClientes;
 
+    @FXML
+    ListView<Bebida> ltwBebidas;
+
 
     private IngredienteRepository ingredienteRepository;
     private ClienteRepository clienteRepository;
+    private BebidaRepository bebidaRepository;
 
-    public Principal(IngredienteRepository ingredienteRepository, ClienteRepository clienteRepository){
+    public Principal(IngredienteRepository ingredienteRepository, ClienteRepository clienteRepository, BebidaRepository bebidaRepository){
         this.ingredienteRepository = ingredienteRepository;
         this.clienteRepository = clienteRepository;
+        this.bebidaRepository = bebidaRepository;
     }
 
 
@@ -69,6 +76,22 @@ public class Principal {
         });
 
         ltwClientes.setItems(clienteRepository.lista());
+
+        ltwBebidas.setCellFactory(bebidaListView -> new ListCell<>(){
+            @Override
+            protected void updateItem(Bebida bebida, boolean b) {
+                super.updateItem(bebida, b);
+
+                if(bebida != null){
+                    setText(bebida.getNome());
+                }else{
+                    setText("");
+                }
+            }
+        });
+
+        ltwBebidas.setItems(bebidaRepository.lista());
+
     }
 
 
@@ -85,6 +108,25 @@ public class Principal {
 
             if(cliente != null){
                 Main.mudaCena(Main.ADICIONARCLIENTE,(aClass) -> new AdicionarCliente(clienteRepository,cliente));
+            }
+        }
+
+    }
+
+
+    @FXML
+    private void cadastrarBebida(){
+        Main.mudaCena(Main.ADICIONARBEBIDA, (aClass) -> new AdicionarBebida(bebidaRepository));
+    }
+
+    @FXML
+    private void editarBebida(MouseEvent evt){
+
+        if(evt.getClickCount() == 2){
+            Bebida bebida = ltwBebidas.getSelectionModel().getSelectedItem();
+
+            if(bebida != null){
+                Main.mudaCena(Main.ADICIONARBEBIDA, (aClass) -> new AdicionarBebida(bebidaRepository, bebida));
             }
         }
 
