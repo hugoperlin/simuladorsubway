@@ -44,9 +44,13 @@ public class Sanduiche {
 
         this.valorTotal = 0.0;
 
-        for(Ingrediente i:ingredientes){
+        /*for(Ingrediente i:ingredientes){
             this.valorTotal += i.getValor();
-        }
+        }*/
+
+        this.valorTotal = ingredientes.stream().reduce(0.0,(subTotal,ingrediente)-> subTotal + ingrediente.getValor(), Double::sum );
+
+
 
         return this.valorTotal;
 
