@@ -7,6 +7,7 @@ import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.ClienteRepository;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.IngredienteRepository;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.PedidoRepository;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseButton;
@@ -15,7 +16,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 
-
+import java.sql.SQLException;
 
 
 public class AdicionarPedido {
@@ -96,7 +97,13 @@ public class AdicionarPedido {
             }
         });
 
-        ltwIngredientes.setItems(ingredienteRepository.lista());
+        try{
+            ltwIngredientes.setItems(ingredienteRepository.lista());
+        }catch (SQLException e){
+            Alert alert = new Alert(Alert.AlertType.ERROR,e.getMessage());
+            alert.showAndWait();
+        }
+
 
         ltwBebidas.setCellFactory(bebidaListView -> new ListCell<>(){
             @Override

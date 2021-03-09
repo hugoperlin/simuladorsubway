@@ -8,6 +8,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+import java.sql.SQLException;
+
 public class AdicionarIngrediente {
 
 
@@ -91,12 +93,18 @@ public class AdicionarIngrediente {
 
         Ingrediente ingrediente = new Ingrediente(nome,descricao,valor);
 
-
-        if(ingredienteOriginal != null){
-            ingredienteRepository.editar(ingredienteOriginal.getId(),ingrediente);
-        }else{
-            ingredienteRepository.adicionar(ingrediente);
+        try{
+            if(ingredienteOriginal != null){
+                ingredienteRepository.editar(ingredienteOriginal.getId(),ingrediente);
+            }else{
+                ingredienteRepository.adicionar(ingrediente);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR,e.getMessage());
+            alert.showAndWait();
         }
+
 
 
         Main.voltaPrincipal();
