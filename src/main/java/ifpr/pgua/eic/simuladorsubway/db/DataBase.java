@@ -13,7 +13,7 @@ public class DataBase {
     public void criarBanco(){
 
         try{
-            Connection conn = DriverManager.getConnection("jdbc:sqlite:sanduiche.sqlite");
+            Connection conn = FabricaConexoes.getConnection();
 
 
             Statement stm = conn.createStatement();
@@ -37,7 +37,7 @@ public class DataBase {
 
         try {
 
-            Connection conn = DriverManager.getConnection("jdbc:sqlite:sanduiche.sqlite");
+            Connection conn = FabricaConexoes.getConnection();
 
             String sql = "INSERT INTO ingredientes(nome,descricao,valor) VALUES (?,?,?)";
 
@@ -63,7 +63,7 @@ public class DataBase {
 
         try{
 
-            Connection conn = DriverManager.getConnection("jdbc:sqlite:sanduiche.sqlite");
+            Connection conn = FabricaConexoes.getConnection();
 
             String sql = "SELECT * FROM ingredientes";
 
@@ -99,7 +99,7 @@ public class DataBase {
         Ingrediente ingrediente = null;
 
         try{
-            Connection conn = DriverManager.getConnection("jdbc:sqlite:sanduiche.sqlite");
+            Connection conn = FabricaConexoes.getConnection();
 
             String sql = "SELECT id as pk, nome, descricao, valor FROM ingredientes WHERE id=?";
 

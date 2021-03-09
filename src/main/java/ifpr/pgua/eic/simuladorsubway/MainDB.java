@@ -12,19 +12,19 @@ public class MainDB {
 
         DataBase db = new DataBase();
 
-        //
-        // db.criarBanco();
 
-        //db.insereIngrediente(new Ingrediente("Tomate","Um tomate",1.0));
-        //db.insereIngrediente(new Ingrediente("Alface","Uma alface",2.0));
+         db.criarBanco();
 
+//        db.insereIngrediente(new Ingrediente("Tomate","Um tomate",1.0));
+//        db.insereIngrediente(new Ingrediente("Alface","Uma alface",2.0));
+//
 //        List<Ingrediente> lista = db.listaIngredientes();
 //
 //        for(Ingrediente i:lista){
 //            System.out.println(i.toString());
 //        }
-
-        System.out.println(db.buscaPorId(1));
+//
+//        System.out.println(db.buscaPorId(1));
 
 
 
