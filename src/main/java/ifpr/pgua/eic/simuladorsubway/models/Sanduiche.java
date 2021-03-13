@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Sanduiche {
 
@@ -25,6 +26,10 @@ public class Sanduiche {
         this(-1,new ArrayList<>());
     }
 
+    public Sanduiche(int id, double valor){
+        this(id,new ArrayList<>());
+        this.valorTotal = valor;
+    }
 
     public boolean adiciona(Ingrediente ingrediente){
         if(!this.ingredientes.contains(ingrediente)){
@@ -32,6 +37,11 @@ public class Sanduiche {
             return true;
         }
         return false;
+    }
+
+
+    public void adicionaTodos(List<Ingrediente> ingredientes){
+        this.ingredientes.addAll(ingredientes);
     }
 
     public boolean remove(Ingrediente ingrediente){

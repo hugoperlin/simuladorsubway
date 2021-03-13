@@ -10,6 +10,8 @@ public interface IngredienteDAO {
     boolean inserir(Ingrediente ingrediente) throws SQLException;
     boolean atualizar(int id, Ingrediente ingrediente) throws SQLException;
 
+    List<Ingrediente> ingredientesDoSanduiche(int id) throws SQLException;
+
     List<Ingrediente> lista() throws SQLException;
     Ingrediente buscaId(int id) throws SQLException;
 
