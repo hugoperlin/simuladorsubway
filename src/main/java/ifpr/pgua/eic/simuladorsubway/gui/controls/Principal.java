@@ -95,7 +95,12 @@ public class Principal {
             }
         });
 
-        ltwClientes.setItems(clienteRepository.lista());
+        try {
+            ltwClientes.setItems(clienteRepository.lista());
+        } catch (SQLException e){
+            Alert alert = new Alert(Alert.AlertType.ERROR,e.getMessage());
+            alert.showAndWait();
+        }
 
         ltwBebidas.setCellFactory(bebidaListView -> new ListCell<>(){
             @Override

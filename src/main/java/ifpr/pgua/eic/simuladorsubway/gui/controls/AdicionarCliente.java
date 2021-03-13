@@ -8,6 +8,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+import java.sql.SQLException;
+
 public class AdicionarCliente {
 
 
@@ -81,13 +83,20 @@ public class AdicionarCliente {
 
 
 
-        Cliente cliente = new Cliente(nome,telefone,email);
+        Cliente cliente = new Cliente(nome,email,telefone);
 
-        if(clienteOriginal != null){
-            clienteRepository.editar(clienteOriginal.getId(),cliente);
-        }else{
-            clienteRepository.adicionar(cliente);
+        try{
+            if(clienteOriginal != null){
+                clienteRepository.editar(clienteOriginal.getId(),cliente);
+            }else{
+                clienteRepository.adicionar(cliente);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR,e.getMessage());
+            alert.showAndWait();
         }
+
 
 
         Main.voltaPrincipal();

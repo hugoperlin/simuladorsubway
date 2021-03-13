@@ -69,7 +69,12 @@ public class AdicionarPedido {
             }
         });
 
-        ltwClientes.setItems(clienteRepository.lista());
+        try {
+            ltwClientes.setItems(clienteRepository.lista());
+        } catch (SQLException e){
+            Alert alert = new Alert(Alert.AlertType.ERROR,e.getMessage());
+            alert.showAndWait();
+        }
 
         ltwIngredientes.setCellFactory(new Callback<ListView<Ingrediente>, ListCell<Ingrediente>>() {
             @Override

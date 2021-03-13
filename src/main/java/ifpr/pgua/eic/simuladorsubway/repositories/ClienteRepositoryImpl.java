@@ -1,46 +1,40 @@
 package ifpr.pgua.eic.simuladorsubway.repositories;
 
+import ifpr.pgua.eic.simuladorsubway.daos.interfaces.ClienteDAO;
 import ifpr.pgua.eic.simuladorsubway.models.Cliente;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.ClienteRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
+
 public class ClienteRepositoryImpl implements ClienteRepository {
 
     private ObservableList<Cliente> clientes;
+    private ClienteDAO clienteDAO;
 
-
-    public ClienteRepositoryImpl(){
+    public ClienteRepositoryImpl(ClienteDAO clienteDAO){
         clientes = FXCollections.observableArrayList();
+        this.clienteDAO = clienteDAO;
     }
 
     @Override
-    public boolean adicionar(Cliente cliente) {
+    public boolean adicionar(Cliente cliente) throws SQLException {
 
-        clientes.add(new Cliente(clientes.size(),cliente.getNome(),cliente.getEmail(), cliente.getTelefone()));
+        return clienteDAO.inserir(cliente);
 
-        return true;
     }
 
     @Override
-    public boolean editar(int id, Cliente cliente) {
+    public boolean editar(int id, Cliente cliente) throws SQLException{
 
-        Cliente antigo = clientes.stream().filter((c -> c.getId() == id)).findFirst().get();
-
-        if(antigo != null){
-
-            antigo.setNome(cliente.getNome());
-            antigo.setEmail(cliente.getEmail());
-            antigo.setTelefone(cliente.getTelefone());
-
-            return  true;
-        }
-
-        return false;
+        return clienteDAO.atualizar(id,cliente);
     }
 
     @Override
-    public ObservableList<Cliente> lista() {
+    public ObservableList<Cliente> lista() throws SQLException {
+        this.clientes.clear();
+        this.clientes.addAll(clienteDAO.lista());
         return FXCollections.unmodifiableObservableList(clientes);
     }
 }
