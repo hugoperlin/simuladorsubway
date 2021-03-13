@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 
 import java.sql.SQLException;
 
-public class AdicionarCliente {
+public class AdicionarCliente extends JanelaBase{
 
 
     @FXML
@@ -93,11 +93,8 @@ public class AdicionarCliente {
             }
         }catch (SQLException e){
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR,e.getMessage());
-            alert.showAndWait();
+            mostraMensagem(Alert.AlertType.ERROR,e.getMessage());
         }
-
-
 
         Main.voltaPrincipal();
 

@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 
 import java.sql.SQLException;
 
-public class AdicionarIngrediente {
+public class AdicionarIngrediente  extends JanelaBase{
 
 
     @FXML
@@ -101,8 +101,7 @@ public class AdicionarIngrediente {
             }
         }catch (SQLException e){
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR,e.getMessage());
-            alert.showAndWait();
+            mostraMensagem(Alert.AlertType.ERROR,e.getMessage());
         }
 
 

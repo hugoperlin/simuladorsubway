@@ -19,7 +19,7 @@ import javafx.util.Callback;
 import java.sql.SQLException;
 
 
-public class AdicionarPedido {
+public class AdicionarPedido extends JanelaBase {
 
     @FXML
     private ListView<Ingrediente> ltwIngredientes;
@@ -56,25 +56,33 @@ public class AdicionarPedido {
     @FXML
     private void initialize(){
 
-        ltwClientes.setCellFactory(clienteListView -> new ListCell<>(){
-            @Override
-            protected void updateItem(Cliente cliente, boolean b) {
-                super.updateItem(cliente,b);
 
-                if(cliente != null){
-                    setText(cliente.getNome());
+        inicializaListViews();
+
+        try {
+            ltwClientes.setItems(clienteRepository.lista());
+            ltwIngredientes.setItems(ingredienteRepository.lista());
+            ltwBebidas.setItems(bebidaRepository.lista());
+        } catch (SQLException e){
+            mostraMensagem(Alert.AlertType.ERROR, e.getMessage());
+        }
+
+
+    }
+
+    private void inicializaListViews(){
+        ltwBebidas.setCellFactory(bebidaListView -> new ListCell<>(){
+            @Override
+            protected void updateItem(Bebida bebida, boolean b) {
+                super.updateItem(bebida, b);
+
+                if(bebida != null){
+                    setText(bebida.getNome());
                 }else{
                     setText("");
                 }
             }
         });
-
-        try {
-            ltwClientes.setItems(clienteRepository.lista());
-        } catch (SQLException e){
-            Alert alert = new Alert(Alert.AlertType.ERROR,e.getMessage());
-            alert.showAndWait();
-        }
 
         ltwIngredientes.setCellFactory(new Callback<ListView<Ingrediente>, ListCell<Ingrediente>>() {
             @Override
@@ -102,33 +110,18 @@ public class AdicionarPedido {
             }
         });
 
-        try{
-            ltwIngredientes.setItems(ingredienteRepository.lista());
-        }catch (SQLException e){
-            Alert alert = new Alert(Alert.AlertType.ERROR,e.getMessage());
-            alert.showAndWait();
-        }
-
-
-        ltwBebidas.setCellFactory(bebidaListView -> new ListCell<>(){
+        ltwClientes.setCellFactory(clienteListView -> new ListCell<>(){
             @Override
-            protected void updateItem(Bebida bebida, boolean b) {
-                super.updateItem(bebida, b);
+            protected void updateItem(Cliente cliente, boolean b) {
+                super.updateItem(cliente,b);
 
-                if(bebida != null){
-                    setText(bebida.getNome());
+                if(cliente != null){
+                    setText(cliente.getNome());
                 }else{
                     setText("");
                 }
             }
         });
-
-        try {
-            ltwBebidas.setItems(bebidaRepository.lista());
-        } catch (SQLException e){
-            Alert alert = new Alert(Alert.AlertType.ERROR,e.getMessage());
-            alert.showAndWait();
-        }
 
     }
 
