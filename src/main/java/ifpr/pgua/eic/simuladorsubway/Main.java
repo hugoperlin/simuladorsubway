@@ -1,6 +1,8 @@
 package ifpr.pgua.eic.simuladorsubway;
 
 import ifpr.pgua.eic.simuladorsubway.daos.JDBCIngredienteDAO;
+import ifpr.pgua.eic.simuladorsubway.daos.JdbcBebidaDAO;
+import ifpr.pgua.eic.simuladorsubway.daos.interfaces.BebidaDAO;
 import ifpr.pgua.eic.simuladorsubway.daos.interfaces.IngredienteDAO;
 import ifpr.pgua.eic.simuladorsubway.gui.controls.Principal;
 import ifpr.pgua.eic.simuladorsubway.models.Bebida;
@@ -58,6 +60,7 @@ public class Main extends Application {
 
 
     private static IngredienteDAO ingredienteDAO;
+    private static BebidaDAO bebidaDAO;
 
     /**
      * Atrituto que repreenta o gerenciador base que será inserido
@@ -110,10 +113,11 @@ public class Main extends Application {
         super.init();
 
         ingredienteDAO = new JDBCIngredienteDAO();
+        bebidaDAO = new JdbcBebidaDAO();
 
         ingredienteRepository = new IngredienteRepositoryImpl(ingredienteDAO);
         clienteRepository = new ClienteRepositoryImpl();
-        bebidaRepository = new BebidaRepositoryImpl();
+        bebidaRepository = new BebidaRepositoryImpl(bebidaDAO);
         pedidoRepository = new PedidoRepositoryImpl();
 
         //Criando objetos temporários para teste

@@ -110,7 +110,13 @@ public class Principal {
             }
         });
 
-        ltwBebidas.setItems(bebidaRepository.lista());
+        try {
+            ltwBebidas.setItems(bebidaRepository.lista());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR,e.getMessage());
+            alert.showAndWait();
+        }
 
 
         ltwPedidos.setCellFactory(pedidoListView -> new ListCell<>(){

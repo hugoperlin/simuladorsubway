@@ -118,7 +118,12 @@ public class AdicionarPedido {
             }
         });
 
-        ltwBebidas.setItems(bebidaRepository.lista());
+        try {
+            ltwBebidas.setItems(bebidaRepository.lista());
+        } catch (SQLException e){
+            Alert alert = new Alert(Alert.AlertType.ERROR,e.getMessage());
+            alert.showAndWait();
+        }
 
     }
 

@@ -1,46 +1,41 @@
 package ifpr.pgua.eic.simuladorsubway.repositories;
 
+import ifpr.pgua.eic.simuladorsubway.daos.interfaces.BebidaDAO;
 import ifpr.pgua.eic.simuladorsubway.models.Bebida;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.BebidaRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
+
 public class BebidaRepositoryImpl implements BebidaRepository {
 
     private ObservableList<Bebida> bebidas;
+    private BebidaDAO bebidaDAO;
 
-
-    public BebidaRepositoryImpl(){
+    public BebidaRepositoryImpl(BebidaDAO bebidaDAO){
+        this.bebidaDAO = bebidaDAO;
         bebidas = FXCollections.observableArrayList();
     }
 
 
     @Override
-    public boolean adicionar(Bebida bebida) {
+    public boolean adicionar(Bebida bebida) throws SQLException {
 
-        bebidas.add(new Bebida(bebidas.size(),bebida.getNome(),bebida.getValor()));
+        return bebidaDAO.inserir(new Bebida(bebidas.size(),bebida.getNome(),bebida.getValor()));
 
-        return true;
     }
 
     @Override
-    public boolean editar(int id, Bebida bebida) {
+    public boolean editar(int id, Bebida bebida) throws SQLException{
 
-        Bebida antiga = bebidas.stream().filter(b -> b.getId() == id).findFirst().get();
-
-        if(antiga != null){
-
-            antiga.setNome(bebida.getNome());
-            antiga.setValor(bebida.getValor());
-
-            return true;
-        }
-
-        return false;
+        return bebidaDAO.atualizar(id,bebida);
     }
 
     @Override
-    public ObservableList<Bebida> lista() {
+    public ObservableList<Bebida> lista() throws SQLException{
+        this.bebidas.clear();
+        this.bebidas.addAll(this.bebidaDAO.lista());
         return FXCollections.unmodifiableObservableList(bebidas);
     }
 }
