@@ -27,6 +27,16 @@
     <ListView fx:id="ltwBebidas" onMouseClicked="#editarBebida"/>
 
     <Button text="Cadastrar Pedido" onAction="#cadastrarPedido"/>
-    <ListView fx:id="ltwPedidos" onMouseClicked="#mostraPedido"/>
 
+    <TableView fx:id="tvwPedidos">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+
+        <columns>
+            <TableColumn fx:id="tcId" text="Id"/>
+            <TableColumn fx:id="tcCliente" text="Cliente"/>
+            <TableColumn fx:id="tcValor" text="Valor R$"/>
+        </columns>
+    </TableView>
 </VBox>

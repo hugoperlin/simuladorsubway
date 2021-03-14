@@ -9,10 +9,11 @@ import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.BebidaRepository;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.ClienteRepository;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.IngredienteRepository;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.PedidoRepository;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
@@ -31,7 +32,16 @@ public class Principal extends JanelaBase{
     ListView<Bebida> ltwBebidas;
 
     @FXML
-    ListView<Pedido> ltwPedidos;
+    TableView<Pedido> tvwPedidos;
+
+    @FXML
+    TableColumn<Pedido, Integer> tcId;
+
+    @FXML
+    TableColumn<Pedido, String> tcCliente;
+
+    @FXML
+    TableColumn<Pedido, Double> tcValor;
 
 
     private IngredienteRepository ingredienteRepository;
@@ -54,18 +64,36 @@ public class Principal extends JanelaBase{
     private void initialize(){
 
         inicializaListViews();
+        inicializaTablePedidos();
 
         //carregando os dados das listviews
         try{
             ltwIngredientes.setItems(ingredienteRepository.lista());
             ltwClientes.setItems(clienteRepository.lista());
             ltwBebidas.setItems(bebidaRepository.lista());
-            ltwPedidos.setItems(pedidoRepository.lista());
+            tvwPedidos.setItems(pedidoRepository.lista());
         }catch (SQLException e){
             mostraMensagem(Alert.AlertType.ERROR, e.getMessage());
         }
 
     }
+
+    private void inicializaTablePedidos(){
+
+
+        tcId.setCellValueFactory(new PropertyValueFactory<Pedido, Integer>("id"));
+        //tcCliente.setCellValueFactory(new PropertyValueFactory<Pedido, String>("cliente"));
+        tcCliente.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Pedido, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Pedido, String> celula) {
+                return new SimpleStringProperty(celula.getValue().getCliente().getNome());
+            }
+        });
+
+        tcValor.setCellValueFactory(new PropertyValueFactory<Pedido, Double>("valorTotal"));
+
+    }
+
 
     private void inicializaListViews(){
         ltwClientes.setCellFactory(clienteListView -> new ListCell<>(){
@@ -113,19 +141,6 @@ public class Principal extends JanelaBase{
             }
         });
 
-        ltwPedidos.setCellFactory(pedidoListView -> new ListCell<>(){
-            @Override
-            protected void updateItem(Pedido pedido, boolean b) {
-                super.updateItem(pedido, b);
-
-                if(pedido != null){
-                    setText(pedido.getCliente().getNome());
-                }else{
-                    setText("");
-                }
-
-            }
-        });
     }
 
 
@@ -189,20 +204,6 @@ public class Principal extends JanelaBase{
             }
 
 
-        }
-
-    }
-
-
-    @FXML
-    private void mostraPedido(MouseEvent evt){
-
-        if(evt.getClickCount() == 1){
-            Pedido pedido = ltwPedidos.getSelectionModel().getSelectedItem();
-
-            if(pedido != null){
-                System.out.println(pedido.toString());
-            }
         }
 
     }
