@@ -2,6 +2,7 @@ package ifpr.pgua.eic.simuladorsubway.daos;
 
 import ifpr.pgua.eic.simuladorsubway.daos.interfaces.PedidoDAO;
 import ifpr.pgua.eic.simuladorsubway.db.FabricaConexoes;
+import ifpr.pgua.eic.simuladorsubway.models.Cliente;
 import ifpr.pgua.eic.simuladorsubway.models.Pedido;
 
 import java.sql.*;
@@ -15,6 +16,9 @@ public class JDBCPedidoDAO implements PedidoDAO {
     private static String INSEREBEBIDAPEDIDO = "INSERT INTO pedido_bebida(id_pedido,id_bebida,valor) VALUES (?,?,?)";
     private static String BUSCAID = "SELECT * FROM pedidos WHERE id=?";
     private static String LISTA = "SELECT * FROM pedidos";
+
+    private static String TOTALPEDIDOS = "CALL total_pedidos(?)";
+    private static String TOTALPEDIDOSCLIENTE = "CALL total_pedidos_cliente(?,?)";
 
     @Override
     public boolean inserir(Pedido pedido) throws SQLException {
@@ -109,5 +113,49 @@ public class JDBCPedidoDAO implements PedidoDAO {
         conn.close();
 
         return lista;
+    }
+
+
+    @Override
+    public double totalPedidos() throws SQLException {
+
+        double totalPedidos = 0;
+
+        Connection conn = FabricaConexoes.getConnection();
+
+        CallableStatement cstmt = conn.prepareCall(TOTALPEDIDOS);
+
+        cstmt.registerOutParameter(1, Types.REAL);
+
+        cstmt.execute();
+
+        totalPedidos = cstmt.getDouble(1);
+
+        cstmt.close();
+        conn.close();
+
+        return totalPedidos;
+    }
+
+    @Override
+    public double totalPedidosCliente(Cliente cliente) throws SQLException {
+        double totalPedidos = 0;
+
+        Connection conn = FabricaConexoes.getConnection();
+
+        CallableStatement cstmt = conn.prepareCall(TOTALPEDIDOSCLIENTE);
+
+        cstmt.setInt(1,cliente.getId());
+        cstmt.registerOutParameter(2, Types.REAL);
+
+        cstmt.execute();
+
+        totalPedidos = cstmt.getDouble(2);
+
+        cstmt.close();
+        conn.close();
+
+        return totalPedidos;
+
     }
 }

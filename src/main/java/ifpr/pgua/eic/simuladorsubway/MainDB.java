@@ -13,11 +13,13 @@ public class MainDB {
 
     public static void main(String[] args) throws SQLException {
 
-        SanduicheDAO sanduicheDAO = new JDBCSanduicheDAO();
-        IngredienteDAO ingredienteDAO = new JDBCIngredienteDAO();
-        BebidaDAO bebidaDAO = new JdbcBebidaDAO();
         ClienteDAO clienteDAO = new JdbcClienteDAO();
         PedidoDAO pedidoDAO = new JDBCPedidoDAO();
+
+        Cliente cliente = clienteDAO.buscaId(2);
+
+        System.out.println(pedidoDAO.totalPedidosCliente(cliente));
+        System.out.println(pedidoDAO.totalPedidos());
 
         /*
         Sanduiche sanduiche = sanduicheDAO.buscaId(3);
@@ -29,12 +31,6 @@ public class MainDB {
         pedidoDAO.inserir(pedido);
         */
 
-        Pedido rec = pedidoDAO.buscaId(1);
-        rec.setBebida(bebidaDAO.buscaBebidaDoPedido(rec.getId()));
-        rec.setCliente(clienteDAO.buscaClienteDoPedido(rec.getId()));
-        rec.setSanduiche(sanduicheDAO.buscaSanduicheDoPedido(rec.getId()));
-
-        System.out.println(rec);
 
 
         /*
