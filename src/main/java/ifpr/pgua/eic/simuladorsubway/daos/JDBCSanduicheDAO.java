@@ -36,6 +36,10 @@ public class JDBCSanduicheDAO implements SanduicheDAO {
         rsId.close();
         pstmt.close();
 
+
+        sanduiche.setId(id);
+
+
         pstmt = conn.prepareStatement(INSERE_INGREDIENTE);
 
         //inserindo os ingredientes do sanduiche na tabela de relacionamento

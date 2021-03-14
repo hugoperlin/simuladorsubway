@@ -1,15 +1,12 @@
 package ifpr.pgua.eic.simuladorsubway;
 
-import ifpr.pgua.eic.simuladorsubway.daos.JDBCIngredienteDAO;
-import ifpr.pgua.eic.simuladorsubway.daos.JdbcBebidaDAO;
-import ifpr.pgua.eic.simuladorsubway.daos.JdbcClienteDAO;
-import ifpr.pgua.eic.simuladorsubway.daos.interfaces.BebidaDAO;
-import ifpr.pgua.eic.simuladorsubway.daos.interfaces.ClienteDAO;
-import ifpr.pgua.eic.simuladorsubway.daos.interfaces.IngredienteDAO;
+import ifpr.pgua.eic.simuladorsubway.daos.*;
+import ifpr.pgua.eic.simuladorsubway.daos.interfaces.*;
 import ifpr.pgua.eic.simuladorsubway.gui.controls.Principal;
 import ifpr.pgua.eic.simuladorsubway.models.Bebida;
 import ifpr.pgua.eic.simuladorsubway.models.Cliente;
 import ifpr.pgua.eic.simuladorsubway.models.Ingrediente;
+import ifpr.pgua.eic.simuladorsubway.models.Pedido;
 import ifpr.pgua.eic.simuladorsubway.repositories.BebidaRepositoryImpl;
 import ifpr.pgua.eic.simuladorsubway.repositories.ClienteRepositoryImpl;
 import ifpr.pgua.eic.simuladorsubway.repositories.IngredienteRepositoryImpl;
@@ -64,6 +61,8 @@ public class Main extends Application {
     private static IngredienteDAO ingredienteDAO;
     private static BebidaDAO bebidaDAO;
     private static ClienteDAO clienteDAO;
+    private static PedidoDAO pedidoDAO;
+    private static SanduicheDAO sanduicheDAO;
 
     /**
      * Atrituto que repreenta o gerenciador base que será inserido
@@ -118,11 +117,13 @@ public class Main extends Application {
         ingredienteDAO = new JDBCIngredienteDAO();
         bebidaDAO = new JdbcBebidaDAO();
         clienteDAO = new JdbcClienteDAO();
+        pedidoDAO = new JDBCPedidoDAO();
+        sanduicheDAO = new JDBCSanduicheDAO();
 
         ingredienteRepository = new IngredienteRepositoryImpl(ingredienteDAO);
         clienteRepository = new ClienteRepositoryImpl(clienteDAO);
         bebidaRepository = new BebidaRepositoryImpl(bebidaDAO);
-        pedidoRepository = new PedidoRepositoryImpl();
+        pedidoRepository = new PedidoRepositoryImpl(pedidoDAO, sanduicheDAO,clienteDAO, bebidaDAO, ingredienteDAO);
 
         //Criando objetos temporários para teste
         //criaFakes();

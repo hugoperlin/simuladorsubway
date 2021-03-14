@@ -193,4 +193,18 @@ public class Principal extends JanelaBase{
 
     }
 
+
+    @FXML
+    private void mostraPedido(MouseEvent evt){
+
+        if(evt.getClickCount() == 1){
+            Pedido pedido = ltwPedidos.getSelectionModel().getSelectedItem();
+
+            if(pedido != null){
+                System.out.println(pedido.toString());
+            }
+        }
+
+    }
+
 }

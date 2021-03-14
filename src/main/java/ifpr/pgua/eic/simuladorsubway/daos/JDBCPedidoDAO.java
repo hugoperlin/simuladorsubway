@@ -6,6 +6,7 @@ import ifpr.pgua.eic.simuladorsubway.models.Pedido;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCPedidoDAO implements PedidoDAO {
@@ -13,6 +14,7 @@ public class JDBCPedidoDAO implements PedidoDAO {
     private static String INSERE = "INSERT INTO pedidos(data,valor,id_sanduiche,id_cliente) VALUES (?,?,?,?)";
     private static String INSEREBEBIDAPEDIDO = "INSERT INTO pedido_bebida(id_pedido,id_bebida,valor) VALUES (?,?,?)";
     private static String BUSCAID = "SELECT * FROM pedidos WHERE id=?";
+    private static String LISTA = "SELECT * FROM pedidos";
 
     @Override
     public boolean inserir(Pedido pedido) throws SQLException {
@@ -80,6 +82,31 @@ public class JDBCPedidoDAO implements PedidoDAO {
 
     @Override
     public List<Pedido> lista() throws SQLException {
-        return null;
+
+        List<Pedido> lista = new ArrayList<>();
+
+        Connection conn = FabricaConexoes.getConnection();
+
+        PreparedStatement pstmt = conn.prepareStatement(LISTA);
+
+        ResultSet rs = pstmt.executeQuery();
+
+        while(rs.next()){
+
+            int id = rs.getInt("id");
+            LocalDateTime data = rs.getTimestamp("data").toLocalDateTime();
+            double valor = rs.getDouble("valor");
+
+            Pedido pedido = new Pedido(id,null,null,null,data,valor);
+
+            lista.add(pedido);
+
+        }
+
+        rs.close();
+        pstmt.close();
+        conn.close();
+
+        return lista;
     }
 }

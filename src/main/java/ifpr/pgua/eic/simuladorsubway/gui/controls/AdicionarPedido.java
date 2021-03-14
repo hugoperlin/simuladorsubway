@@ -147,15 +147,18 @@ public class AdicionarPedido extends JanelaBase {
     @FXML
     private void adicionar(){
 
-        pedidoRepository.adicionar(sanduiche);
 
         Cliente cliente = ltwClientes.getSelectionModel().getSelectedItem();
         Bebida bebida = ltwBebidas.getSelectionModel().getSelectedItem();
-
-
         Pedido pedido = new Pedido(sanduiche,bebida,cliente);
 
-        pedidoRepository.adicionar(pedido);
+
+        try {
+            pedidoRepository.adicionar(sanduiche);
+            pedidoRepository.adicionar(pedido);
+        } catch (SQLException e) {
+            mostraMensagem(Alert.AlertType.ERROR, e.getMessage());
+        }
 
         Main.voltaPrincipal();
 

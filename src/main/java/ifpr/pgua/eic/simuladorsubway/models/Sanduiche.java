@@ -66,6 +66,10 @@ public class Sanduiche {
 
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }
