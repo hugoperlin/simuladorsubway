@@ -1,12 +1,9 @@
 package ifpr.pgua.eic.simuladorsubway;
 
-import ifpr.pgua.eic.simuladorsubway.daos.JDBCIngredienteDAO;
-import ifpr.pgua.eic.simuladorsubway.daos.JDBCSanduicheDAO;
-import ifpr.pgua.eic.simuladorsubway.daos.interfaces.IngredienteDAO;
-import ifpr.pgua.eic.simuladorsubway.daos.interfaces.SanduicheDAO;
+import ifpr.pgua.eic.simuladorsubway.daos.*;
+import ifpr.pgua.eic.simuladorsubway.daos.interfaces.*;
 import ifpr.pgua.eic.simuladorsubway.db.DataBase;
-import ifpr.pgua.eic.simuladorsubway.models.Ingrediente;
-import ifpr.pgua.eic.simuladorsubway.models.Sanduiche;
+import ifpr.pgua.eic.simuladorsubway.models.*;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -18,12 +15,26 @@ public class MainDB {
 
         SanduicheDAO sanduicheDAO = new JDBCSanduicheDAO();
         IngredienteDAO ingredienteDAO = new JDBCIngredienteDAO();
+        BebidaDAO bebidaDAO = new JdbcBebidaDAO();
+        ClienteDAO clienteDAO = new JdbcClienteDAO();
+        PedidoDAO pedidoDAO = new JDBCPedidoDAO();
 
+        /*
         Sanduiche sanduiche = sanduicheDAO.buscaId(3);
-        sanduiche.adicionaTodos(ingredienteDAO.ingredientesDoSanduiche(sanduiche.getId()));
+        Bebida bebida = bebidaDAO.buscaId(1);
+        Cliente cliente = clienteDAO.buscaId(2);
 
+        Pedido pedido = new Pedido(sanduiche,bebida,cliente);
 
-        System.out.println(sanduiche.toString());
+        pedidoDAO.inserir(pedido);
+        */
+
+        Pedido rec = pedidoDAO.buscaId(1);
+        rec.setBebida(bebidaDAO.buscaBebidaDoPedido(rec.getId()));
+        rec.setCliente(clienteDAO.buscaClienteDoPedido(rec.getId()));
+        rec.setSanduiche(sanduicheDAO.buscaSanduicheDoPedido(rec.getId()));
+
+        System.out.println(rec);
 
 
         /*

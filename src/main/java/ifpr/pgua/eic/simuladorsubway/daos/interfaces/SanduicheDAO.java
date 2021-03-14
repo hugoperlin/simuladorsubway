@@ -9,4 +9,5 @@ public interface SanduicheDAO {
     boolean inserir(Sanduiche sanduiche) throws SQLException;
     Sanduiche buscaId(int id) throws SQLException;
 
+    Sanduiche buscaSanduicheDoPedido(int idPedido) throws SQLException;
 }

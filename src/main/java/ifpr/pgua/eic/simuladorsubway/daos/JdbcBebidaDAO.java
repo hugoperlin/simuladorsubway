@@ -17,6 +17,8 @@ public class JdbcBebidaDAO implements BebidaDAO {
     private static final String INSERT = "INSERT INTO bebidas(nome,valor) VALUES (?,?)";
     private static final String LISTA = "SELECT * FROM bebidas";
     private static final String UPDATE = "UPDATE bebidas SET nome=?, valor=? WHERE id=?";
+    private static final String BUSCAID = "SELECT * FROM bebidas WHERE id=?";
+    private static final String BEBIDAPEDIDO = "SELECT * FROM pedido_bebida WHERE id_pedido=?";
 
     @Override
     public boolean inserir(Bebida bebida) throws SQLException {
@@ -81,8 +83,57 @@ public class JdbcBebidaDAO implements BebidaDAO {
 
     @Override
     public Bebida buscaId(int id) throws SQLException {
-        return null;
+
+        Bebida bebida = null;
+
+        Connection conn = FabricaConexoes.getConnection();
+
+        PreparedStatement pstmt = conn.prepareStatement(BUSCAID);
+
+        pstmt.setInt(1,id);
+
+        ResultSet rs = pstmt.executeQuery();
+
+        if(rs.next()){
+            int pk = rs.getInt("id");
+            String nome = rs.getString("nome");
+            double valor = rs.getDouble("valor");
+
+            bebida = new Bebida(pk, nome, valor);
+        }
+
+        rs.close();
+        pstmt.close();
+        conn.close();
+
+        return bebida;
     }
+
+    public Bebida buscaBebidaDoPedido(int idPedido) throws SQLException {
+        Bebida bebida = null;
+
+        Connection conn = FabricaConexoes.getConnection();
+
+        PreparedStatement pstmt = conn.prepareStatement(BEBIDAPEDIDO);
+        pstmt.setInt(1,idPedido);
+
+        ResultSet rs = pstmt.executeQuery();
+
+        if(rs.next()){
+            int idBebida = rs.getInt("id_bebida");
+            double valor = rs.getDouble("valor");
+
+            bebida = buscaId(idBebida);
+            bebida.setValor(valor);
+        }
+
+        rs.close();
+        pstmt.close();
+        conn.close();
+
+        return bebida;
+    }
+
 
     @Override
     public boolean delete(Bebida Bebida) throws SQLException {

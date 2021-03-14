@@ -13,6 +13,7 @@ public interface BebidaDAO {
 
     List<Bebida> lista() throws SQLException;
     Bebida buscaId(int id) throws SQLException;
+    public Bebida buscaBebidaDoPedido(int idPedido) throws SQLException;
 
     boolean delete(Bebida Bebida) throws SQLException;
 

@@ -16,6 +16,8 @@ public class JdbcClienteDAO implements ClienteDAO {
     private static final String INSERT = "INSERT INTO clientes(nome,telefone,email) VALUES (?,?,?)";
     private static final String LISTA = "SELECT * FROM clientes";
     private static final String UPDATE = "UPDATE clientes SET nome=?, telefone=?, email=? WHERE id=?";
+    private static final String BUSCAID = "SELECT * FROM clientes WHERE id=?";
+    private static final String CLIENTEPEDIDO = "SELECT id_cliente FROM pedidos WHERE id=?";
 
     @Override
     public boolean inserir(Cliente cliente) throws SQLException {
@@ -83,7 +85,56 @@ public class JdbcClienteDAO implements ClienteDAO {
 
     @Override
     public Cliente buscaId(int id) throws SQLException {
-        return null;
+        Cliente cliente=null;
+
+        Connection conn = FabricaConexoes.getConnection();
+
+        PreparedStatement pstmt = conn.prepareStatement(BUSCAID);
+
+        pstmt.setInt(1,id);
+
+        ResultSet rs = pstmt.executeQuery();
+
+        if (rs.next()) {
+
+            int pk = rs.getInt("id");
+            String nome = rs.getString("nome");
+            String telefone = rs.getString("telefone");
+            String email = rs.getString("email");
+
+            cliente = new Cliente(id, nome, email,telefone);
+
+        }
+
+        rs.close();
+        pstmt.close();
+        conn.close();
+
+        return cliente;
+    }
+
+    @Override
+    public Cliente buscaClienteDoPedido(int idPedido) throws SQLException {
+        Cliente cliente = null;
+
+        Connection conn = FabricaConexoes.getConnection();
+
+        PreparedStatement pstmt = conn.prepareStatement(CLIENTEPEDIDO);
+        pstmt.setInt(1,idPedido);
+
+        ResultSet rs = pstmt.executeQuery();
+
+        if(rs.next()){
+            int idCliente = rs.getInt("id_cliente");
+
+            cliente = buscaId(idCliente);
+        }
+
+        rs.close();
+        pstmt.close();
+        conn.close();
+
+        return cliente;
     }
 
     @Override

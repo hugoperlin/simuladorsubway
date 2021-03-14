@@ -15,6 +15,7 @@ public class JDBCSanduicheDAO implements SanduicheDAO {
     private static String INSERE = "INSERT INTO sanduiches(valor) values(?)";
     private static String INSERE_INGREDIENTE = "INSERT INTO sanduiche_ingrediente(id_sanduiche,id_ingrediente,valor) values(?,?,?)";
     private static String BUSCAID = "SELECT * FROM sanduiches where id=?";
+    private static String SANDUICHEPEDIDO = "SELECT id_sanduiche FROM pedidos WHERE id=?";
 
     @Override
     public boolean inserir(Sanduiche sanduiche) throws SQLException {
@@ -75,6 +76,34 @@ public class JDBCSanduicheDAO implements SanduicheDAO {
             sanduiche = new Sanduiche(pk,valor);
 
         }
+
+        rs.close();
+        pstmt.close();
+        conn.close();
+
+        return sanduiche;
+    }
+
+    @Override
+    public Sanduiche buscaSanduicheDoPedido(int idPedido) throws SQLException {
+        Sanduiche sanduiche = null;
+
+        Connection conn = FabricaConexoes.getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(SANDUICHEPEDIDO);
+        pstmt.setInt(1,idPedido);
+
+        ResultSet rs = pstmt.executeQuery();
+
+        if(rs.next()){
+            int idSanduiche = rs.getInt("id_sanduiche");
+
+            sanduiche = buscaId(idSanduiche);
+        }
+
+        rs.close();
+        pstmt.close();
+        conn.close();
+
 
         return sanduiche;
     }

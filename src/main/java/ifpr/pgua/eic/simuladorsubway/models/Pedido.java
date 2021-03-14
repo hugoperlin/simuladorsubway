@@ -1,6 +1,7 @@
 package ifpr.pgua.eic.simuladorsubway.models;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Pedido {
 
@@ -9,9 +10,9 @@ public class Pedido {
     private Bebida bebida;
     private Cliente cliente;
     private double valorTotal;
-    private LocalDate data;
+    private LocalDateTime data;
 
-    public Pedido(int id, Sanduiche sanduiche, Bebida bebida, Cliente cliente, LocalDate data){
+    public Pedido(int id, Sanduiche sanduiche, Bebida bebida, Cliente cliente, LocalDateTime data){
         this.id = id;
         this.sanduiche = sanduiche;
         this.bebida = bebida;
@@ -20,7 +21,23 @@ public class Pedido {
     }
 
     public Pedido(Sanduiche sanduiche, Bebida bebida, Cliente cliente){
-        this(-1,sanduiche,bebida,cliente, LocalDate.now());
+        this(-1,sanduiche,bebida,cliente, LocalDateTime.now());
+    }
+    public Pedido(int id, Sanduiche sanduiche, Bebida bebida, Cliente cliente,LocalDateTime data, Double valor){
+        this(id,sanduiche,bebida,cliente, data);
+        this.valorTotal = valor;
+    }
+
+    public void setBebida(Bebida bebida) {
+        this.bebida = bebida;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public void setSanduiche(Sanduiche sanduiche) {
+        this.sanduiche = sanduiche;
     }
 
     public double getValorTotal() {
@@ -39,6 +56,14 @@ public class Pedido {
         return cliente;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public LocalDateTime getData() {
+        return data;
+    }
+
     @Override
     public String toString() {
         return "Pedido{" +
@@ -46,6 +71,8 @@ public class Pedido {
                 ", sanduiche=" + sanduiche +
                 ", bebida=" + bebida +
                 ", valorTotal=" + valorTotal +
+                ", data=" + data.toString() +
+                ", cliente="+cliente +
                 '}';
     }
 }
