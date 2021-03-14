@@ -1,0 +1,34 @@
+version: '3.3'
+volumes:
+  data_aulaoo_postgres:
+
+  data_mysql:
+
+services:
+
+  mysql:
+    image: mysql:latest
+    volumes:
+      - data_mysql:/var/lib/mysql
+
+    environment:
+      - MYSQL_USER=user
+      - MYSQL_DATABASE=sanduiche
+      - MYSQL_PASSWORD=12345
+      - MYSQL_ROOT_PASSWORD=root
+
+    ports:
+      - "3306:3306"
+
+  postgres:
+
+    image: postgres:11-alpine
+    volumes:
+      - data_aulaoo_postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=sanduiche
+      - POSTGRES_USER=user
+      - COMPOSE_INTERACTIVE_NO_CLI=1
+    ports:
+      - "5432:5432"
