@@ -5,10 +5,7 @@ import ifpr.pgua.eic.simuladorsubway.db.FabricaConexoes;
 import ifpr.pgua.eic.simuladorsubway.models.Ingrediente;
 import ifpr.pgua.eic.simuladorsubway.models.Sanduiche;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class JDBCSanduicheDAO implements SanduicheDAO {
 
@@ -24,7 +21,7 @@ public class JDBCSanduicheDAO implements SanduicheDAO {
 
 
         //inserindo o sanduiche
-        PreparedStatement pstmt = conn.prepareStatement(INSERE);
+        PreparedStatement pstmt = conn.prepareStatement(INSERE,Statement.RETURN_GENERATED_KEYS);
 
         pstmt.setDouble(1,sanduiche.getValorTotal());
 
@@ -32,6 +29,7 @@ public class JDBCSanduicheDAO implements SanduicheDAO {
 
         //pegando o id do sanduiche criad
         ResultSet rsId = pstmt.getGeneratedKeys();
+        rsId.next();
         int id = rsId.getInt(1);
         rsId.close();
         pstmt.close();

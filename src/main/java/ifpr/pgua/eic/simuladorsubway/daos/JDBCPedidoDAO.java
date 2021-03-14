@@ -22,7 +22,7 @@ public class JDBCPedidoDAO implements PedidoDAO {
         Connection conn = FabricaConexoes.getConnection();
 
         //inserindo pedido
-        PreparedStatement pstmt = conn.prepareStatement(INSERE);
+        PreparedStatement pstmt = conn.prepareStatement(INSERE,Statement.RETURN_GENERATED_KEYS);
 
         pstmt.setTimestamp(1, Timestamp.valueOf(pedido.getData()));
         pstmt.setDouble(2,pedido.getValorTotal());
@@ -33,6 +33,7 @@ public class JDBCPedidoDAO implements PedidoDAO {
 
         //recuperando o id do pedido
         ResultSet rs = pstmt.getGeneratedKeys();
+        rs.next();
         int idPedido = rs.getInt(1);
         rs.close();
         pstmt.close();

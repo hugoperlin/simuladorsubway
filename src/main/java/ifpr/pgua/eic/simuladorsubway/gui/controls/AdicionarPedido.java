@@ -157,6 +157,7 @@ public class AdicionarPedido extends JanelaBase {
             pedidoRepository.adicionar(sanduiche);
             pedidoRepository.adicionar(pedido);
         } catch (SQLException e) {
+            e.printStackTrace();
             mostraMensagem(Alert.AlertType.ERROR, e.getMessage());
         }
 
