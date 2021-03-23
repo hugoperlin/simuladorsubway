@@ -22,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 import java.sql.SQLException;
@@ -150,6 +151,9 @@ public class Main extends Application {
 
         mudaCena(Main.PRINCIPAL, principalCallback());
 
+
+        //stage.setResizable(false);
+        //stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
 
     }

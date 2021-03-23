@@ -25,6 +25,9 @@ public class JDBCPedidoDAO implements PedidoDAO {
 
         Connection conn = FabricaConexoes.getConnection();
 
+        pedido.getSanduiche().setId(1000);
+
+
         //inserindo pedido
         PreparedStatement pstmt = conn.prepareStatement(INSERE,Statement.RETURN_GENERATED_KEYS);
 
@@ -130,6 +133,7 @@ public class JDBCPedidoDAO implements PedidoDAO {
         cstmt.execute();
 
         totalPedidos = cstmt.getDouble(1);
+
 
         cstmt.close();
         conn.close();

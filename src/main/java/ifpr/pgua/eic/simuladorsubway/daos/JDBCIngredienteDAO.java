@@ -39,6 +39,7 @@ public class JDBCIngredienteDAO implements IngredienteDAO {
         return ret == 1;
     }
 
+
     @Override
     public boolean atualizar(int id, Ingrediente ingrediente) throws SQLException {
 

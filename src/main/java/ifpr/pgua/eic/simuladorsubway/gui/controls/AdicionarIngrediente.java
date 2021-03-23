@@ -2,11 +2,10 @@ package ifpr.pgua.eic.simuladorsubway.gui.controls;
 
 import ifpr.pgua.eic.simuladorsubway.Main;
 import ifpr.pgua.eic.simuladorsubway.models.Ingrediente;
+import ifpr.pgua.eic.simuladorsubway.models.Pedido;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.IngredienteRepository;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.sql.SQLException;
 
