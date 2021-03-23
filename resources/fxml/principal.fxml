@@ -12,8 +12,12 @@
             prefHeight="400.0" prefWidth="600.0" spacing="10">
 
 
+    <HBox>
+        <Button text="Cadastrar Ingrediente" onAction="#cadastarIngrediente"/>
+        <Button text="Gerar Relatório" onAction="#gerarRelatorioIngredientes"/>
 
-    <Button text="Cadastrar Ingrediente" onAction="#cadastarIngrediente"/>
+    </HBox>
+
 
     <ListView fx:id="ltwIngredientes" onMouseClicked="#editarIngrediente"/>
 

@@ -9,14 +9,21 @@ import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.BebidaRepository;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.ClienteRepository;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.IngredienteRepository;
 import ifpr.pgua.eic.simuladorsubway.repositories.interfaces.PedidoRepository;
+import ifpr.pgua.eic.simuladorsubway.utils.GeradorPdf;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.util.Callback;
 
+import java.io.File;
 import java.sql.SQLException;
 
 
@@ -43,6 +50,9 @@ public class Principal extends JanelaBase{
     @FXML
     TableColumn<Pedido, Double> tcValor;
 
+
+    @FXML
+    private Text txtIdentificacaoTela;
 
     private IngredienteRepository ingredienteRepository;
     private ClienteRepository clienteRepository;
@@ -77,6 +87,7 @@ public class Principal extends JanelaBase{
         }
 
     }
+
 
     private void inicializaTablePedidos(){
 
@@ -145,6 +156,40 @@ public class Principal extends JanelaBase{
 
 
     @FXML
+    private void gerarRelatorioIngredientes(){
+        try{
+
+            GeradorPdf geradorPdf = new GeradorPdf(ingredienteRepository);
+
+            FileChooser fc = new FileChooser();
+            File f = fc.showSaveDialog(null);
+
+
+            if(f != null) {
+                String arq = f.getAbsolutePath();
+                geradorPdf.criaPdf(arq);
+            }
+
+        }catch (SQLException e){
+            mostraMensagem(Alert.AlertType.ERROR,e.getMessage());
+        }
+    }
+
+
+    @FXML
+    private void mudaCena(ActionEvent evt) {
+
+        String texto = ((Button)evt.getSource()).getText();
+
+        txtIdentificacaoTela.setText(texto);
+
+        Main.mudaCena(Main.ADICIONARINGREDIENTE,(aClass)->new AdicionarIngrediente(ingredienteRepository));
+
+
+    }
+
+
+    @FXML
     private void cadastrarPedido(){
         Main.mudaCena(Main.ADICIONARPEDIDO, (aClass) -> new AdicionarPedido(ingredienteRepository,bebidaRepository,clienteRepository,pedidoRepository));
     }
@@ -205,7 +250,11 @@ public class Principal extends JanelaBase{
 
 
         }
+    }
 
+    @FXML
+    private void sair(){
+        Platform.exit();
     }
 
 }
