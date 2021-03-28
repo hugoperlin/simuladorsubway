@@ -10,4 +10,6 @@ public interface IngredienteRepository {
     boolean adicionar(Ingrediente ingrediente) throws SQLException;
     boolean editar(int id, Ingrediente ingredienteAntigo) throws SQLException;
     ObservableList<Ingrediente> lista() throws SQLException;
+
+    void tarefaDemorada() throws SQLException;
 }

@@ -12,8 +12,13 @@
             prefHeight="400.0" prefWidth="600.0" spacing="10">
 
 
+    <HBox>
+        <Button text="Cadastrar Ingrediente" onAction="#cadastarIngrediente"/>
+        <Button text="Gerar Relatório" onAction="#gerarRelatorioIngredientes"/>
+        <Button text="Tarefa demorada" onAction="#executaTarefa"/>
+        <ProgressIndicator fx:id="piIndicador" visible="false"/>
+    </HBox>
 
-    <Button text="Cadastrar Ingrediente" onAction="#cadastarIngrediente"/>
 
     <ListView fx:id="ltwIngredientes" onMouseClicked="#editarIngrediente"/>
 
@@ -39,4 +44,5 @@
             <TableColumn fx:id="tcValor" text="Valor R$"/>
         </columns>
     </TableView>
+    <Label fx:id="lbRelogio" text="00:00:00" />
 </VBox>

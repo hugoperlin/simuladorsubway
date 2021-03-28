@@ -17,4 +17,5 @@ public interface IngredienteDAO {
 
     boolean delete(Ingrediente ingrediente) throws SQLException;
 
+    void tarefaDemorada() throws SQLException;
 }

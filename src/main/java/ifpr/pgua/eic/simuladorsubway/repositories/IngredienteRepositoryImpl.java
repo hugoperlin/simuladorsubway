@@ -41,5 +41,9 @@ public class IngredienteRepositoryImpl implements IngredienteRepository {
         return FXCollections.unmodifiableObservableList(ingredientes);
     }
 
+    public void tarefaDemorada() throws SQLException{
+        ingredienteDAO.tarefaDemorada();
+    }
+
 
 }

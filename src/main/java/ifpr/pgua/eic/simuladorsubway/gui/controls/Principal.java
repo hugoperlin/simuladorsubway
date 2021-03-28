@@ -13,6 +13,7 @@ import ifpr.pgua.eic.simuladorsubway.utils.GeradorPdf;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -25,6 +26,8 @@ import javafx.util.Callback;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 public class Principal extends JanelaBase{
@@ -50,9 +53,17 @@ public class Principal extends JanelaBase{
     @FXML
     TableColumn<Pedido, Double> tcValor;
 
+    @FXML
+    private Label lbRelogio;
 
     @FXML
     private Text txtIdentificacaoTela;
+
+    @FXML
+    private ProgressIndicator piIndicador;
+
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss");
+
 
     private IngredienteRepository ingredienteRepository;
     private ClienteRepository clienteRepository;
@@ -67,11 +78,20 @@ public class Principal extends JanelaBase{
         this.clienteRepository = clienteRepository;
         this.bebidaRepository = bebidaRepository;
         this.pedidoRepository = pedidoRepository;
+
     }
+
+
 
 
     @FXML
     private void initialize(){
+
+        //criando o relogio
+        Task relogio = controlaRelogio();
+        new Thread(relogio).start();
+        lbRelogio.textProperty().bind(relogio.messageProperty());
+
 
         inicializaListViews();
         inicializaTablePedidos();
@@ -87,7 +107,6 @@ public class Principal extends JanelaBase{
         }
 
     }
-
 
     private void inicializaTablePedidos(){
 
@@ -151,6 +170,28 @@ public class Principal extends JanelaBase{
                 }
             }
         });
+
+    }
+
+    @FXML
+    private void executaTarefa(){
+
+        piIndicador.setVisible(true);
+
+        Task tarefa = new Task() {
+            @Override
+            protected Object call() throws Exception {
+                try{
+                    ingredienteRepository.tarefaDemorada();
+                    Platform.runLater(()->piIndicador.setVisible(false));
+                }catch (SQLException e){
+                    Platform.runLater(()-> mostraMensagem(Alert.AlertType.ERROR,e.getMessage()));
+                }
+                return null;
+            }
+        };
+
+        new Thread(tarefa).start();
 
     }
 
@@ -255,6 +296,25 @@ public class Principal extends JanelaBase{
     @FXML
     private void sair(){
         Platform.exit();
+    }
+
+    private Task controlaRelogio(){
+        return new Task() {
+            @Override
+            protected Object call() throws Exception {
+
+                while(true){
+                    String hora = formatter.format(LocalDateTime.now());
+                    this.updateMessage(hora);
+
+                    try{
+                        Thread.sleep(1000);
+                    }catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
     }
 
 }

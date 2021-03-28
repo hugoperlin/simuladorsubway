@@ -5,10 +5,7 @@ import ifpr.pgua.eic.simuladorsubway.db.FabricaConexoes;
 import ifpr.pgua.eic.simuladorsubway.models.Ingrediente;
 import ifpr.pgua.eic.simuladorsubway.models.Sanduiche;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -153,5 +150,19 @@ public class JDBCIngredienteDAO implements IngredienteDAO {
     @Override
     public boolean delete(Ingrediente ingrediente) throws SQLException {
         return false;
+    }
+
+    @Override
+    public void tarefaDemorada() throws SQLException {
+        System.out.println("execuntado...");
+        Connection con = FabricaConexoes.getConnection();
+
+        CallableStatement call = con.prepareCall("call tarefaDemorada");
+
+        call.execute();
+
+        call.close();
+        con.close();
+        System.out.println("terminei...");
     }
 }

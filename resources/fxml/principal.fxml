@@ -15,7 +15,8 @@
     <HBox>
         <Button text="Cadastrar Ingrediente" onAction="#cadastarIngrediente"/>
         <Button text="Gerar Relatório" onAction="#gerarRelatorioIngredientes"/>
-
+        <Button text="Tarefa demorada" onAction="#executaTarefa"/>
+        <ProgressIndicator fx:id="piIndicador" visible="false"/>
     </HBox>
 
 
@@ -43,4 +44,5 @@
             <TableColumn fx:id="tcValor" text="Valor R$"/>
         </columns>
     </TableView>
+    <Label fx:id="lbRelogio" text="00:00:00" />
 </VBox>
